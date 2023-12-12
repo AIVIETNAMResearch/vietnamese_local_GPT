@@ -101,8 +101,11 @@ EMBEDDING_MODEL_NAME = "all-MiniLM-L6-v2" # Uses 0.2 GB of VRAM (Less accurate b
 # MODEL_ID = "TheBloke/Llama-2-7b-Chat-GGUF"
 # MODEL_BASENAME = "llama-2-7b-chat.Q4_K_M.gguf"
 
-MODEL_ID = "TheBloke/Mistral-7B-Instruct-v0.1-GGUF"
-MODEL_BASENAME = "mistral-7b-instruct-v0.1.Q8_0.gguf"
+'''
+used
+'''
+# MODEL_ID = "TheBloke/Mistral-7B-Instruct-v0.1-GGUF"
+# MODEL_BASENAME = "mistral-7b-instruct-v0.1.Q8_0.gguf"
 
 # MODEL_ID = "TheBloke/Llama-2-70b-Chat-GGUF"
 # MODEL_BASENAME = "llama-2-70b-chat.Q4_K_M.gguf"
@@ -158,7 +161,7 @@ MODEL_BASENAME = "mistral-7b-instruct-v0.1.Q8_0.gguf"
 ##### 8-10GB VRAM Graphics Cards (RTX 3080 - RTX 3080 Ti - RTX 3070 Ti - 3060 Ti - RTX 2000 Series, Quadro RTX 4000, 5000, 6000) #####
 ### (*** Requires using intfloat/e5-small-v2 instead of hkunlp/instructor-large as embedding model ***)
 
-### 7b GPTQ Models for 8GB GPUs
+### 7b GPTQ Models for 8GB GPUs # only support gpu
 # MODEL_ID = "TheBloke/Wizard-Vicuna-7B-Uncensored-GPTQ"
 # MODEL_BASENAME = "Wizard-Vicuna-7B-Uncensored-GPTQ-4bit-128g.no-act.order.safetensors"
 # MODEL_ID = "TheBloke/WizardLM-7B-uncensored-GPTQ"
@@ -169,7 +172,9 @@ MODEL_BASENAME = "mistral-7b-instruct-v0.1.Q8_0.gguf"
 ####
 #### (FOR GGML) (Quantized cpu+gpu+mps) models - check if they support llama.cpp
 ####
-
+'''
+GGML - LLAMA-CPP Dropped Support 
+'''
 # MODEL_ID = "TheBloke/wizard-vicuna-13B-GGML"
 # MODEL_BASENAME = "wizard-vicuna-13B.ggmlv3.q4_0.bin"
 # MODEL_BASENAME = "wizard-vicuna-13B.ggmlv3.q6_K.bin"

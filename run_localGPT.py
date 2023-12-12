@@ -62,15 +62,20 @@ def load_model(device_type, model_id, model_basename=None, LOGGING=logging):
 
     if model_basename is not None:
         if ".gguf" in model_basename.lower():
+            print("Load quantized model gguf")
             llm = load_quantized_model_gguf_ggml(model_id, model_basename, device_type, LOGGING)
             return llm
         elif ".ggml" in model_basename.lower():
+            print("Load quantized model ggml")
             model, tokenizer = load_quantized_model_gguf_ggml(model_id, model_basename, device_type, LOGGING)
         elif ".awq" in model_basename.lower():
+            print("Load quantized model awq")
             model, tokenizer = load_quantized_model_awq(model_id, LOGGING)
         else:
+            print("Load quantized model qptq")
             model, tokenizer = load_quantized_model_qptq(model_id, model_basename, device_type, LOGGING)
     else:
+        print("load_full_model")
         model, tokenizer = load_full_model(model_id, model_basename, device_type, LOGGING)
 
     # Load configuration from the model to avoid warnings
