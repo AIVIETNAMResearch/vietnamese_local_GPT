@@ -8,6 +8,7 @@ from langchain.docstore.document import Document
 from langchain.embeddings import HuggingFaceInstructEmbeddings
 from langchain.text_splitter import Language, RecursiveCharacterTextSplitter
 from langchain.vectorstores import Chroma
+from langchain.document_loaders import JSONLoader
 
 from constants import (
     CHROMA_SETTINGS,
@@ -31,7 +32,11 @@ def load_single_document(file_path: str) -> Document:
        loader_class = DOCUMENT_MAP.get(file_extension)
        if loader_class:
            file_log(file_path + ' loaded.')
-           loader = loader_class(file_path)
+           if loader_class == JSONLoader:
+              loader = loader_class(file_path, jq_schema=".data[].instruction", text_content=False)
+              return loader.load()
+           else:
+               loader = loader_class(file_path)
        else:
            file_log(file_path + ' document type is undefined.')
            raise ValueError("Document type is undefined")
@@ -102,11 +107,19 @@ def split_documents(documents: list[Document]) -> tuple[list[Document], list[Doc
     text_docs, python_docs = [], []
     for doc in documents:
         if doc is not None:
-           file_extension = os.path.splitext(doc.metadata["source"])[1]
-           if file_extension == ".py":
-               python_docs.append(doc)
-           else:
-               text_docs.append(doc)
+            if isinstance(doc, list):
+                for doc_item in doc:
+                    file_extension = os.path.splitext(doc_item.metadata["source"])[1]
+                    if file_extension == ".py":
+                        python_docs.append(doc_item)
+                    else:
+                        text_docs.append(doc_item)
+            else:
+                file_extension = os.path.splitext(doc.metadata["source"])[1]
+                if file_extension == ".py":
+                    python_docs.append(doc)
+                else:
+                    text_docs.append(doc)
     return text_docs, python_docs
 
 

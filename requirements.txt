@@ -31,3 +31,7 @@ Streamlit-extras
 
 # Excel File Manipulation
 openpyxl
+
+# translation
+googletrans
+translate

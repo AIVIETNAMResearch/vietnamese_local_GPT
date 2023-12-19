@@ -8,6 +8,7 @@ from langchain.embeddings import HuggingFaceInstructEmbeddings
 from langchain.llms import HuggingFacePipeline
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler  # for streaming response
 from langchain.callbacks.manager import CallbackManager
+from nlp_preprocessing import Translation
 
 callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
 
@@ -61,15 +62,20 @@ def load_model(device_type, model_id, model_basename=None, LOGGING=logging):
 
     if model_basename is not None:
         if ".gguf" in model_basename.lower():
+            print("Load quantized model gguf")
             llm = load_quantized_model_gguf_ggml(model_id, model_basename, device_type, LOGGING)
             return llm
         elif ".ggml" in model_basename.lower():
+            print("Load quantized model ggml")
             model, tokenizer = load_quantized_model_gguf_ggml(model_id, model_basename, device_type, LOGGING)
         elif ".awq" in model_basename.lower():
+            print("Load quantized model awq")
             model, tokenizer = load_quantized_model_awq(model_id, LOGGING)
         else:
+            print("Load quantized model qptq")
             model, tokenizer = load_quantized_model_qptq(model_id, model_basename, device_type, LOGGING)
     else:
+        print("load_full_model")
         model, tokenizer = load_full_model(model_id, model_basename, device_type, LOGGING)
 
     # Load configuration from the model to avoid warnings
@@ -247,6 +253,7 @@ def main(device_type, show_sources, use_history, model_type, save_qa):
         os.mkdir(MODELS_PATH)
 
     qa = retrieval_qa_pipline(device_type, use_history, promptTemplate_type=model_type)
+    translater = Translation(from_lang="en", to_lang='vi', mode='translate') 
     # Interactive questions and answers
     while True:
         query = input("\nEnter a query: ")
@@ -255,6 +262,7 @@ def main(device_type, show_sources, use_history, model_type, save_qa):
         # Get the answer from the chain
         res = qa(query)
         answer, docs = res["result"], res["source_documents"]
+        #answer = translater(answer)
 
         # Print the result
         print("\n\n> Question:")
