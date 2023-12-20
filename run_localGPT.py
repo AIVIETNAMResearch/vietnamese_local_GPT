@@ -223,7 +223,12 @@ def retrieval_qa_pipline(device_type, use_history, promptTemplate_type="llama"):
     help="whether to save Q&A pairs to a CSV file (Default is False)",
 )
 
-def main(device_type, show_sources, use_history, model_type, save_qa):
+@click.option(
+    "--translate_output",
+    is_falg=True,
+)
+
+def main(device_type, show_sources, use_history, model_type, save_qa, translate_output):
     """
     Implements the main information retrieval task for a localGPT.
 
@@ -262,7 +267,8 @@ def main(device_type, show_sources, use_history, model_type, save_qa):
         # Get the answer from the chain
         res = qa(query)
         answer, docs = res["result"], res["source_documents"]
-        #answer = translater(answer)
+        if translate_output:
+            answer = translater(answer)
 
         # Print the result
         print("\n\n> Question:")

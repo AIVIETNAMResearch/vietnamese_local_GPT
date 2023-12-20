@@ -12,7 +12,7 @@ from langchain.document_loaders import UnstructuredFileLoader, UnstructuredMarkd
 ROOT_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
 
 # Define the folder for storing database
-SOURCE_DIRECTORY = f"{ROOT_DIRECTORY}/SOURCE_ZALO_MATH"
+SOURCE_DIRECTORY = f"{ROOT_DIRECTORY}/SOURCE_DOCUMENTS"
 
 PERSIST_DIRECTORY = f"{ROOT_DIRECTORY}/DB"
 
@@ -57,5 +57,8 @@ DOCUMENT_MAP = {
 }
 
 EMBEDDING_MODEL_NAME = "intfloat/multilingual-e5-base"
-MODEL_ID  = "vilm/vinallama-7b-chat-GGUF"
-MODEL_BASENAME = "vinallama-7b-chat_q5_0.gguf"
+#MODEL_ID  = "vilm/vinallama-7b-chat-GGUF"
+#MODEL_BASENAME = "vinallama-7b-chat_q5_0.gguf"
+
+MODEL_ID = "TheBloke/Mixtral-8x7B-Instruct-v0.1-GGUF"
+MODEL_BASENAME = "mixtral-8x7b-instruct-v0.1.Q4_K_M.gguf"
