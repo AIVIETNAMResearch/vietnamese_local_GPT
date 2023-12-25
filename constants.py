@@ -5,7 +5,7 @@ from chromadb.config import Settings
 
 # https://python.langchain.com/en/latest/modules/indexes/document_loaders/examples/excel.html?highlight=xlsx#microsoft-excel
 from langchain.document_loaders import CSVLoader, PDFMinerLoader, TextLoader, UnstructuredExcelLoader, Docx2txtLoader
-from langchain.document_loaders import UnstructuredFileLoader, UnstructuredMarkdownLoader
+from langchain.document_loaders import UnstructuredFileLoader, UnstructuredMarkdownLoader, JSONLoader
 
 
 # load_dotenv()
@@ -29,7 +29,7 @@ CHROMA_SETTINGS = Settings(
 
 # Context Window and Max New Tokens
 CONTEXT_WINDOW_SIZE = 4096
-MAX_NEW_TOKENS = CONTEXT_WINDOW_SIZE  # int(CONTEXT_WINDOW_SIZE/4)
+MAX_NEW_TOKENS = int(CONTEXT_WINDOW_SIZE/4) #CONTEXT_WINDOW_SIZE  
 
 #### If you get a "not enough space in the buffer" error, you should reduce the values below, start with half of the original values and keep halving the value until the error stops appearing
 
@@ -53,8 +53,10 @@ DOCUMENT_MAP = {
     ".xlsx": UnstructuredExcelLoader,
     ".docx": Docx2txtLoader,
     ".doc": Docx2txtLoader,
+    ".json": JSONLoader,
 }
 
+<<<<<<< HEAD
 # Default Instructor Model
 # EMBEDDING_MODEL_NAME = "hkunlp/instructor-large"  # Uses 1.5 GB of VRAM (High Accuracy with lower VRAM usage)
 
@@ -184,3 +186,11 @@ MODEL_BASENAME = "mixtral-8x7b-instruct-v0.1.Q3_K_M.gguf"
 ####
 # MODEL_ID = "TheBloke/Llama-2-7B-Chat-AWQ"
 # MODEL_BASENAME = "model.safetensors.awq"
+=======
+EMBEDDING_MODEL_NAME = "intfloat/multilingual-e5-base"
+#MODEL_ID  = "vilm/vinallama-7b-chat-GGUF"
+#MODEL_BASENAME = "vinallama-7b-chat_q5_0.gguf"
+
+MODEL_ID = "TheBloke/Mixtral-8x7B-Instruct-v0.1-GGUF"
+MODEL_BASENAME = "mixtral-8x7b-instruct-v0.1.Q4_K_M.gguf"
+>>>>>>> 051039cddc83d28c38bd2cf9e6f7a6d98a8441d3

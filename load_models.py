@@ -100,6 +100,7 @@ def load_quantized_model_qptq(model_id, model_basename, device_type, logging):
         device_map="auto",
         use_triton=False,
         quantize_config=None,
+        inject_fused_attention=False
     )
     return model, tokenizer
 

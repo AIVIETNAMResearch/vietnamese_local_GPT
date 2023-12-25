@@ -227,9 +227,13 @@ def retrieval_qa_pipline(device_type, use_history, promptTemplate_type="llama"):
 
 @click.option(
     "--translate_output",
+<<<<<<< HEAD
     "-t",
     is_flag=True,
     help="translate answer to VN lang",
+=======
+    is_flag=True,
+>>>>>>> 051039cddc83d28c38bd2cf9e6f7a6d98a8441d3
 )
 
 def main(device_type, show_sources, use_history, model_type, save_qa, translate_output):
@@ -271,6 +275,7 @@ def main(device_type, show_sources, use_history, model_type, save_qa, translate_
         # Get the answer from the chain
         res = qa(query)
         answer, docs = res["result"], res["source_documents"]
+<<<<<<< HEAD
 
         # translate answer to VN
         if translate_output:
@@ -278,6 +283,10 @@ def main(device_type, show_sources, use_history, model_type, save_qa, translate_
                 ans_lang = detect(answer)
                 translater = Translation(from_lang=ans_lang, to_lang='vi', mode='translate') 
                 answer = translater(answer)
+=======
+        if translate_output:
+            answer = translater(answer)
+>>>>>>> 051039cddc83d28c38bd2cf9e6f7a6d98a8441d3
 
         # Print the result
         print("\n\n> Question:")
