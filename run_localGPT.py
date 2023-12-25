@@ -225,7 +225,7 @@ def retrieval_qa_pipline(device_type, use_history, promptTemplate_type="llama"):
 
 @click.option(
     "--translate_output",
-    is_falg=True,
+    is_flag=True,
 )
 
 def main(device_type, show_sources, use_history, model_type, save_qa, translate_output):
