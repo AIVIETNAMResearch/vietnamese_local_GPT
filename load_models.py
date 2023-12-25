@@ -34,30 +34,30 @@ def load_quantized_model_gguf_ggml(model_id, model_basename, device_type, loggin
     - The number of GPU layers is set based on the device type.
     """
 
-    try:
-        logging.info("Using Llamacpp for GGUF/GGML quantized models")
-        model_path = hf_hub_download(
-            repo_id=model_id,
-            filename=model_basename,
-            resume_download=True,
-            cache_dir=MODELS_PATH,
-        )
-        kwargs = {
-            "model_path": model_path,
-            "n_ctx": CONTEXT_WINDOW_SIZE,
-            "max_tokens": MAX_NEW_TOKENS,
-            "n_batch": N_BATCH,  # set this based on your GPU & CPU RAM
-        }
-        if device_type.lower() == "mps":
-            kwargs["n_gpu_layers"] = 1
-        if device_type.lower() == "cuda":
-            kwargs["n_gpu_layers"] = N_GPU_LAYERS  # set this based on your GPU
+    # try:
+    logging.info("Using Llamacpp for GGUF/GGML quantized models")
+    model_path = hf_hub_download(
+        repo_id=model_id,
+        filename=model_basename,
+        resume_download=True,
+        cache_dir=MODELS_PATH,
+    )
+    kwargs = {
+        "model_path": model_path,
+        "n_ctx": CONTEXT_WINDOW_SIZE,
+        "max_tokens": MAX_NEW_TOKENS,
+        "n_batch": N_BATCH,  # set this based on your GPU & CPU RAM
+    }
+    if device_type.lower() == "mps":
+        kwargs["n_gpu_layers"] = 1
+    if device_type.lower() == "cuda":
+        kwargs["n_gpu_layers"] = N_GPU_LAYERS  # set this based on your GPU
 
-        return LlamaCpp(**kwargs)
-    except:
-        if "ggml" in model_basename:
-            logging.INFO("If you were using GGML model, LLAMA-CPP Dropped Support, Use GGUF Instead")
-        return None
+    return LlamaCpp(**kwargs)
+    # except:
+    #     if "ggml" in model_basename:
+    #         logging.INFO("If you were using GGML model, LLAMA-CPP Dropped Support, Use GGUF Instead")
+    #     return None
 
 
 def load_quantized_model_qptq(model_id, model_basename, device_type, logging):

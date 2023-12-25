@@ -3,6 +3,8 @@ import logging
 import click
 import torch
 import utils
+from langdetect import detect
+
 from langchain.chains import RetrievalQA
 from langchain.embeddings import HuggingFaceInstructEmbeddings
 from langchain.llms import HuggingFacePipeline
@@ -62,15 +64,20 @@ def load_model(device_type, model_id, model_basename=None, LOGGING=logging):
 
     if model_basename is not None:
         if ".gguf" in model_basename.lower():
+            print("Load quantized model gguf")
             llm = load_quantized_model_gguf_ggml(model_id, model_basename, device_type, LOGGING)
             return llm
         elif ".ggml" in model_basename.lower():
+            print("Load quantized model ggml")
             model, tokenizer = load_quantized_model_gguf_ggml(model_id, model_basename, device_type, LOGGING)
         elif ".awq" in model_basename.lower():
+            print("Load quantized model awq")
             model, tokenizer = load_quantized_model_awq(model_id, LOGGING)
         else:
+            print("Load quantized model qptq")
             model, tokenizer = load_quantized_model_qptq(model_id, model_basename, device_type, LOGGING)
     else:
+        print("load_full_model")
         model, tokenizer = load_full_model(model_id, model_basename, device_type, LOGGING)
 
     # Load configuration from the model to avoid warnings
@@ -218,7 +225,14 @@ def retrieval_qa_pipline(device_type, use_history, promptTemplate_type="llama"):
     help="whether to save Q&A pairs to a CSV file (Default is False)",
 )
 
-def main(device_type, show_sources, use_history, model_type, save_qa):
+@click.option(
+    "--translate_output",
+    "-t",
+    is_flag=True,
+    help="translate answer to VN lang",
+)
+
+def main(device_type, show_sources, use_history, model_type, save_qa, translate_output):
     """
     Implements the main information retrieval task for a localGPT.
 
@@ -257,7 +271,13 @@ def main(device_type, show_sources, use_history, model_type, save_qa):
         # Get the answer from the chain
         res = qa(query)
         answer, docs = res["result"], res["source_documents"]
-        answer = translater(answer)
+
+        # translate answer to VN
+        if translate_output:
+            if detect(answer) != 'vi':
+                ans_lang = detect(answer)
+                translater = Translation(from_lang=ans_lang, to_lang='vi', mode='translate') 
+                answer = translater(answer)
 
         # Print the result
         print("\n\n> Question:")

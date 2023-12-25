@@ -33,7 +33,7 @@ MAX_NEW_TOKENS = CONTEXT_WINDOW_SIZE  # int(CONTEXT_WINDOW_SIZE/4)
 
 #### If you get a "not enough space in the buffer" error, you should reduce the values below, start with half of the original values and keep halving the value until the error stops appearing
 
-N_GPU_LAYERS = 100  # Llama-2-70B has 83 layers
+N_GPU_LAYERS = 40  # Llama-2-70B has 83 layers
 N_BATCH = 512
 
 ### From experimenting with the Llama-2-7B-Chat-GGML model on 8GB VRAM, these values work:
@@ -101,8 +101,8 @@ EMBEDDING_MODEL_NAME = "all-MiniLM-L6-v2" # Uses 0.2 GB of VRAM (Less accurate b
 # MODEL_ID = "TheBloke/Llama-2-7b-Chat-GGUF"
 # MODEL_BASENAME = "llama-2-7b-chat.Q4_K_M.gguf"
 
-MODEL_ID = "TheBloke/Mistral-7B-Instruct-v0.1-GGUF"
-MODEL_BASENAME = "mistral-7b-instruct-v0.1.Q8_0.gguf"
+MODEL_ID = "TheBloke/Mixtral-8x7B-Instruct-v0.1-GGUF"
+MODEL_BASENAME = "mixtral-8x7b-instruct-v0.1.Q3_K_M.gguf"
 
 # MODEL_ID = "TheBloke/Llama-2-70b-Chat-GGUF"
 # MODEL_BASENAME = "llama-2-70b-chat.Q4_K_M.gguf"
